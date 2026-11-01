@@ -3,26 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multicook — скоро</title>
+<title>Multicook — сайт в разработке</title>
 <style>
   /* ===== ✏️ ЦВЕТА — меняй здесь ===== */
-  :root { --bg:#f7f3ee; --text:#2b2b2b; --accent:#c0392b; }
+  :root{
+    --bg:#f7f3ee;      /* фон страницы */
+    --card:#ffffff;    /* фон карточек */
+    --text:#2b2b2b;    /* основной текст */
+    --muted:#777;      /* второстепенный текст */
+    --accent:#c0392b;  /* фирменный цвет (заголовок) */
+    --wa:#25d366;      /* кнопка WhatsApp */
+    --call:#2b2b2b;    /* кнопка Позвонить */
+    --insta:#d62976;   /* кнопка Instagram */
+  }
   /* ================================== */
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif;text-align:center;padding:16px}
-  h1{color:var(--accent);margin:0 0 12px}
-  p{margin:6px 0;font-size:18px}
-  a{color:var(--accent);font-weight:bold}
+
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+       font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+       display:flex;justify-content:center;padding:32px 16px}
+  .wrap{max-width:640px;width:100%;text-align:center}
+  h1{color:var(--accent);font-size:40px;margin:0 0 8px}
+  .lead{font-size:20px;margin:4px 0}
+  .lead.tr{color:var(--muted);font-size:17px}
+  .sub{margin:24px 0 16px;font-size:18px;font-weight:600}
+  .sub span{display:block;font-weight:400;color:var(--muted);font-size:15px}
+  .cards{display:grid;gap:14px}
+  .card{background:var(--card);border-radius:14px;padding:18px;
+        box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .city{font-size:19px;font-weight:700;margin:0 0 4px}
+  .phone{color:var(--muted);margin:0 0 12px;font-size:16px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 18px;border-radius:10px;color:#fff;
+       text-decoration:none;font-weight:600;font-size:15px;min-width:140px}
+  .wa{background:var(--wa)}
+  .call{background:var(--call)}
+  .insta{background:var(--insta);margin-top:24px}
+  .foot{margin-top:28px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
-<div>
-  <!-- ===== ✏️ ТЕКСТ — меняй здесь ===== -->
+<div class="wrap">
+
+  <!-- ===== ✏️ ЗАГОЛОВОК — меняй здесь ===== -->
   <h1>Multicook</h1>
-  <p>Сайт временно не работает. Скоро вернёмся!</p>
-  <p>Web sitemiz geçici olarak kapalıdır. Yakında döneceğiz!</p>
-  <p><a href="https://wa.me/905514676735">Написать в WhatsApp</a></p>
-  <!-- ================================== -->
+  <p class="lead">Сайт в разработке — скоро откроемся!</p>
+  <p class="lead tr">Web sitemiz yapım aşamasında — çok yakında!</p>
+  <!-- ======================================= -->
+
+  <p class="sub">
+    А пока заказ можно сделать по WhatsApp или телефону:
+    <span>Şimdilik siparişlerinizi WhatsApp veya telefonla verebilirsiniz:</span>
+  </p>
+
+  <div class="cards">
+
+    <!-- ===== ✏️ ТОЧКА 1 — Анталья Муратпаша / Кепез ===== -->
+    <div class="card">
+      <p class="city">Анталья — Муратпаша / Кепез</p>
+      <p class="phone">+90 505 313 31 97</p>
+      <div class="btns">
+        <a class="btn wa" href="https://wa.me/905053133197" target="_blank">WhatsApp</a>
+        <a class="btn call" href="tel:+905053133197">Позвонить / Ara</a>
+      </div>
+    </div>
+
+    <!-- ===== ✏️ ТОЧКА 2 — Анталья Коньяалты ===== -->
+    <div class="card">
+      <p class="city">Анталья — Коньяалты</p>
+      <p class="phone">+90 530 267 01 81</p>
+      <div class="btns">
+        <a class="btn wa" href="https://wa.me/905302670181" target="_blank">WhatsApp</a>
+        <a class="btn call" href="tel:+905302670181">Позвонить / Ara</a>
+      </div>
+    </div>
+
+    <!-- ===== ✏️ ТОЧКА 3 — Аланья ===== -->
+    <div class="card">
+      <p class="city">Аланья</p>
+      <p class="phone">+90 551 467 67 35</p>
+      <div class="btns">
+        <a class="btn wa" href="https://wa.me/905514676735" target="_blank">WhatsApp</a>
+        <a class="btn call" href="tel:+905514676735">Позвонить / Ara</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== ✏️ INSTAGRAM — ссылка на профиль ===== -->
+  <a class="btn insta" href="https://instagram.com/multicook.tr" target="_blank">Instagram @multicook.tr</a>
+  <!-- ================================================================= -->
+
+  <p class="foot">© Multicook</p>
 </div>
 </body>
 </html>
