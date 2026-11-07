@@ -153,8 +153,21 @@ section{padding:100px 0}
 .store__map:hover{color:var(--red)}
 .store .btn--wa{margin-top:auto}
 
+.store__rate{align-self:flex-start;display:inline-flex;gap:6px;align-items:center;background:var(--cream);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;color:var(--muted)}
+.store__rate span{color:#e8a200;font-weight:800}
+.store__rate:hover{color:var(--ink)}
+
+/* Отзывы */
+.revs{columns:3 300px;column-gap:18px}
+.rev{break-inside:avoid;margin:0 0 18px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;transition:transform .3s,box-shadow .3s}
+.rev:hover{transform:translateY(-4px);box-shadow:0 24px 40px -26px rgba(0,0,0,.3)}
+.rev__stars{color:#f2b400;letter-spacing:3px;font-size:17px;margin-bottom:12px}
+.rev blockquote{font-size:15.5px;line-height:1.6}
+.rev figcaption{margin-top:14px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.rev figcaption a:hover{color:var(--red)}
+
 /* Как заказать */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
 .step{padding:30px;border-radius:28px;background:var(--paper);border:1px solid var(--line);counter-increment:s}
 .step::before{content:"0" counter(s);font:900 44px Unbounded;color:var(--red);display:block;margin-bottom:18px}
 .step h3{font-size:19px;margin-bottom:10px;font-weight:700}
@@ -206,7 +219,7 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
   .hero__grid{grid-template-columns:1fr}
   .hero__art{max-width:420px;margin:10px auto 0}
   .feats,.dishes{grid-template-columns:repeat(2,1fr)}
-  .steps{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:640px){
   .wrap{padding:0 16px}
@@ -217,6 +230,7 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
   section{padding:70px 0}
   .stores{grid-template-columns:1fr}
   .feats{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
   .dishes{gap:10px}
   .dish{border-radius:18px}
   .dish__txt h3{font-size:15px}
@@ -240,6 +254,7 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
       <a href="#about" data-t="navAbout"></a>
       <a href="#menu" data-t="navMenu"></a>
       <a href="#stores" data-t="navStores"></a>
+      <a href="#reviews" data-t="revKicker"></a>
       <a href="#order" data-t="navOrder"></a>
     </nav>
     <div class="nav__right">
@@ -331,6 +346,16 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
 </section>
 
 <!-- =====================================================================
+     ОТЗЫВЫ (карточки создаются из REVIEWS в скрипте)
+     ===================================================================== -->
+<section id="reviews" style="padding-top:20px">
+  <div class="wrap">
+    <div class="head rv"><small data-t="revKicker"></small><h2 data-t="revH2"></h2><p data-t="revP"></p></div>
+    <div class="revs" id="revList"></div>
+  </div>
+</section>
+
+<!-- =====================================================================
      КАК ЗАКАЗАТЬ
      ===================================================================== -->
 <section id="order" style="padding-top:20px">
@@ -340,6 +365,7 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
       <div class="step rv"><h3 data-t="s1h"></h3><p data-t="s1p"></p></div>
       <div class="step rv d1"><h3 data-t="s2h"></h3><p data-t="s2p"></p></div>
       <div class="step rv d2"><h3 data-t="s3h"></h3><p data-t="s3p"></p></div>
+      <div class="step rv d3"><h3 data-t="s4h"></h3><p data-t="s4p"></p></div>
     </div>
   </div>
 </section>
@@ -387,26 +413,32 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
 /* =====================================================================
    ✏️ ЗОНА 2: МАГАЗИНЫ — адреса, телефоны, WhatsApp, ссылки на карты
    wa — номер WhatsApp без "+" и пробелов
+   hours — часы работы Пн–Сб (воскресенье — выходной), rating/reviews — с Google Карт
+   gid — ID места в Google Картах (для ссылки "отзывы")
    ===================================================================== */
 const STORES = [
   { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
     name:{ru:"Муратпаша / Кепез",tr:"Muratpaşa / Kepez",uk:"Муратпаша / Кепез"},
-    address:"Varlık Mah. Piri Reis Cad. No:34A, Muratpaşa",
+    address:"Varlık Mah. Piri Reis Cad. Huzur Apt. No:34/A, Muratpaşa",
+    hours:"09:00–19:00", rating:"4,9", reviews:58, gid:"ChIJvaAQlfCRwxQRZCxMqWw-2io",
     phone:"+90 505 313 31 97", wa:"905053133197",
     map:"https://share.google/zVskLCj0gSjSHdmTz" },
   { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
     name:{ru:"Коньяалты",tr:"Konyaaltı",uk:"Коньяалти"},
-    address:"Liman Mah. 20. Sk., Konyaaltı",
+    address:"Liman Mah. 20. Sk. Çiçek Apt. No:27, 07130 Konyaaltı",
+    hours:"10:00–20:00", rating:"4,9", reviews:92, gid:"ChIJU2I_dxWTwxQRiTikWwu41T8",
     phone:"+90 530 267 01 81", wa:"905302670181",
     map:"https://share.google/8mDsDqb6eQ6Lv1tFz" },
   { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
     name:{ru:"Центр (Клеопатра)",tr:"Merkez (Kleopatra)",uk:"Центр (Клеопатра)"},
     address:"Saray Mah. Oral Sk. No:16A, Alanya",
+    hours:"10:00–20:00", rating:"4,9", reviews:229, gid:"ChIJ9dtJOsij3BQRLvfXJBKN9hw",
     phone:"+90 551 467 67 35", wa:"905514676735",
     map:"https://share.google/OnviwlSqA9bieTTDK" },
   { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
     name:{ru:"Махмутлар",tr:"Mahmutlar",uk:"Махмутлар"},
     address:"Mahmutlar Mah. 207 Sk. Sezgin Sitesi No:8B, Alanya",
+    hours:"10:00–20:00", rating:"4,8", reviews:88, gid:"ChIJw1EnUEib3BQRZs2ioYleCD4",
     phone:"+90 551 467 67 35", wa:"905514676735",
     map:"https://share.google/BV7Z7S4XVJUTurjw4" },
 ];
@@ -452,10 +484,43 @@ const DISHES = [
 ];
 
 /* =====================================================================
+   ✏️ ЗОНА 3Б: ОТЗЫВЫ — реальные отзывы с Google Карт (сокращены, переведены)
+   store — номер магазина из списка STORES (0..3)
+   ===================================================================== */
+const REVIEWS = [
+  { store:0,
+    ru:"Если бы можно было поставить 100 звёзд — поставила бы. Заказываю готовую еду во многих местах Анталии, но Multicook — лучший. Котлеты, голубцы, паштет, блины, пельмени, вареники — всё невероятно вкусно. Как дома!",
+    tr:"Yapabilseydim 100 yıldız verirdim. Antalya'da birçok yerden hazır yemek alıyorum ama Multicook en iyisi. Köfte, sarma, pate, krep, pelmeni, vareniki — hepsi inanılmaz lezzetli. Ev gibi!",
+    uk:"Якби можна було поставити 100 зірок — поставила б. Замовляю готову їжу в багатьох місцях Анталії, але Multicook — найкращий. Котлети, голубці, паштет, млинці, пельмені, вареники — усе неймовірно смачно. Як удома!" },
+  { store:1,
+    ru:"Очень вкусно и недорого. Девушка работает супер приятная — проконсультирует и поможет выбрать. Будем скучать по этой прекрасной еде ❤️",
+    tr:"Çok lezzetli ve uygun fiyatlı. Çalışan hanım çok güler yüzlü — bilgi veriyor, seçmenize yardım ediyor. Bu harika yemekleri özleyeceğiz ❤️",
+    uk:"Дуже смачно й недорого. Дівчина працює супер приємна — проконсультує і допоможе обрати. Сумуватимемо за цією чудовою їжею ❤️" },
+  { store:2,
+    ru:"Еда очень вкусная и всегда свежезамороженная. Продавец всегда встречает с улыбкой и помогает выбрать. Рекомендую 👍",
+    tr:"Yemekler çok lezzetli ve her zaman taze dondurulmuş. Satıcı bizi hep gülümseyerek karşılıyor ve seçmemize yardım ediyor. Tavsiye ederim 👍",
+    uk:"Їжа дуже смачна й завжди свіжозаморожена. Продавчиня завжди зустрічає з усмішкою і допомагає обрати. Рекомендую 👍" },
+  { store:1,
+    ru:"Хочу выразить благодарность! Блины с разными начинками, сырники, котлеты — всё просто потрясающе. Выручаете, когда нет времени готовить. И цены приятные.",
+    tr:"Teşekkür etmek istiyorum! Farklı iç harçlı krepler, sirniki, köfteler — hepsi harika. Yemek yapmaya vaktim olmadığında hayat kurtarıyorsunuz. Fiyatlar da uygun.",
+    uk:"Хочу висловити подяку! Млинці з різними начинками, сирники, котлети — усе просто чудово. Рятуєте, коли немає часу готувати. І ціни приємні." },
+  { store:3,
+    ru:"В Аланье не хочется тратить время на готовку — лучше провести его у моря 🌊 Поэтому захожу и беру что-то быстрое и вкусное. Мои фавориты: перцы, сырники, куриные котлеты!",
+    tr:"Alanya'da yemek yapmakla vakit kaybetmek istemiyorum — denizde geçirmeyi tercih ederim 🌊 Bu yüzden gelip hızlı ve lezzetli bir şey alıyorum. Favorilerim: biber dolması, sirniki, tavuk köfte!",
+    uk:"В Аланії не хочеться витрачати час на готування — краще провести його біля моря 🌊 Тож заходжу й беру щось швидке та смачне. Мої фаворити: перці, сирники, курячі котлети!" },
+  { store:0,
+    ru:"Сегодня попробовали блины, чебуреки, котлеты и вареники. Всё очень вкусно, семья просила добавки! Чебуреки даже остыть не успели. Будем постоянными клиентами ❤️",
+    tr:"Bugün krep, çibörek, köfte ve vareniki denedik. Her şey çok lezzetliydi, ailem tekrar istedi! Çibörekler soğumaya bile fırsat bulamadı. Kesinlikle müdavimiz olacağız ❤️",
+    uk:"Сьогодні скуштували млинці, чебуреки, котлети й вареники. Усе дуже смачно, родина просила ще! Чебуреки навіть охолонути не встигли. Будемо постійними клієнтами ❤️" },
+];
+
+/* =====================================================================
    ✏️ ЗОНА 4: ВСЕ ТЕКСТЫ САЙТА на 3 языках (ru / tr / uk)
    ===================================================================== */
 const T = {
 ru:{
+  hoursLbl:"Пн–Сб",sunOff:"Вс — выходной",revWord:"отзывов",
+  revKicker:"Отзывы",revH2:"Нас любят покупатели",revP:"Средняя оценка 4,9 ★ по 467 отзывам в Google во всех четырёх магазинах.",revSrc:"Отзыв в Google",revAll:"Все отзывы в Google",
   navAbout:"О нас",navMenu:"Меню",navStores:"Магазины",navOrder:"Как заказать",
   ctaOrder:"Заказать",ctaOrderWa:"Заказать в WhatsApp",ctaStores:"Наши магазины",
   heroTag:"Анталья · Аланья — 4 магазина",
@@ -472,18 +537,21 @@ ru:{
   f4h:"Ужин за 10 минут",f4p:"Отварить, обжарить или разогреть — и на столе горячая домашняя еда.",
   menuKicker:"Меню",menuH2:"Что у нас в морозилке",menuP:"Больше 40 позиций: от классических вареников до сытных готовых блюд. Точный ассортимент и цены — в WhatsApp вашего магазина.",
   menuMore:"Узнать наличие и цены",
-  storesKicker:"Магазины",storesH2:"4 магазина в Анталье и Аланье",storesP:"Выберите ближайший магазин и напишите нам в WhatsApp — подтвердим наличие, сумму и удобное время.",
+  storesKicker:"Магазины",storesH2:"4 магазина в Анталье и Аланье",storesP:"Выберите магазин своего города и напишите в WhatsApp — соберём заказ, пришлём чек и привезём курьером с 16:00 до 20:00.",
   storeWa:"Заказать в WhatsApp",storeMap:"Открыть на карте",
-  orderKicker:"Как заказать",orderH2:"Три шага до вкусного ужина",
-  s1h:"Выберите магазин",s1p:"Тот, что ближе к вам — в Анталье или Аланье.",
-  s2h:"Напишите в WhatsApp",s2p:"Расскажите, что хотите заказать, — подскажем по наличию и вкусам.",
-  s3h:"Получите заказ",s3p:"Договоримся о доставке или самовывозе в удобное для вас время.",
+  orderKicker:"Как заказать",orderH2:"Четыре шага до вкусного ужина",
+  s1h:"Напишите в WhatsApp",s1p:"Выберите магазин своего города и отправьте список желаемых позиций.",
+  s2h:"Согласуйте чек",s2p:"Мы соберём ваш заказ и пришлём чек на согласование.",
+  s3h:"Оплатите удобно",s3p:"Наличными курьеру или переводом на IBAN турецкой карты.",
+  s4h:"Встречайте курьера",s4p:"Курьер на маршруте каждый день, кроме воскресенья, с 16:00 до 20:00.",
   instaH2:"Новинки, акции и вкусные фото — в нашем Instagram",instaP:"Подписывайтесь, чтобы первыми узнавать о свежих поступлениях.",
   footTxt:"Домашние полуфабрикаты ручной работы",
   modalH:"Выберите магазин",modalP:"Откроется WhatsApp выбранного магазина",modalClose:"Закрыть",
   waMsg:"Здравствуйте! Хочу сделать заказ в Multicook"
 },
 tr:{
+  hoursLbl:"Pzt–Cmt",sunOff:"Pazar kapalı",revWord:"yorum",
+  revKicker:"Yorumlar",revH2:"Müşterilerimiz bizi seviyor",revP:"Dört mağazamızda Google'da 467 yorumla ortalama 4,9 ★ puan.",revSrc:"Google yorumu",revAll:"Tüm Google yorumları",
   navAbout:"Hakkımızda",navMenu:"Menü",navStores:"Mağazalar",navOrder:"Nasıl sipariş verilir",
   ctaOrder:"Sipariş ver",ctaOrderWa:"WhatsApp'tan sipariş",ctaStores:"Mağazalarımız",
   heroTag:"Antalya · Alanya — 4 mağaza",
@@ -500,18 +568,21 @@ tr:{
   f4h:"10 dakikada yemek",f4p:"Haşla, kızart ya da ısıt — sıcak ev yemeği masanda.",
   menuKicker:"Menü",menuH2:"Dondurucumuzda neler var",menuP:"40'tan fazla ürün: klasik varenikiden doyurucu hazır yemeklere. Güncel ürün ve fiyatlar mağazanızın WhatsApp hattında.",
   menuMore:"Stok ve fiyat sor",
-  storesKicker:"Mağazalar",storesH2:"Antalya ve Alanya'da 4 mağaza",storesP:"Size en yakın mağazayı seçin ve WhatsApp'tan yazın — stok, tutar ve uygun saati teyit edelim.",
+  storesKicker:"Mağazalar",storesH2:"Antalya ve Alanya'da 4 mağaza",storesP:"Şehrinizdeki mağazayı seçin ve WhatsApp'tan yazın — siparişinizi hazırlar, fişi gönderir, 16:00–20:00 arası kuryeyle getiririz.",
   storeWa:"WhatsApp'tan sipariş",storeMap:"Haritada aç",
-  orderKicker:"Nasıl sipariş verilir",orderH2:"Lezzetli akşam yemeğine üç adım",
-  s1h:"Mağazayı seçin",s1p:"Antalya ya da Alanya'da size en yakın olanı.",
-  s2h:"WhatsApp'tan yazın",s2p:"Ne istediğinizi yazın — stok ve çeşitler konusunda yardımcı olalım.",
-  s3h:"Siparişinizi alın",s3p:"Teslimat veya gel-al için uygun saati birlikte belirleyelim.",
+  orderKicker:"Nasıl sipariş verilir",orderH2:"Lezzetli akşam yemeğine dört adım",
+  s1h:"WhatsApp'tan yazın",s1p:"Şehrinizdeki mağazayı seçin ve istediğiniz ürünlerin listesini gönderin.",
+  s2h:"Fişi onaylayın",s2p:"Siparişinizi hazırlayıp onayınız için fişi göndeririz.",
+  s3h:"Kolayca ödeyin",s3p:"Kuryeye nakit veya Türk banka kartına IBAN ile havale.",
+  s4h:"Kuryeyi karşılayın",s4p:"Kurye pazar hariç her gün 16:00–20:00 arası yolda.",
   instaH2:"Yenilikler, kampanyalar ve lezzetli fotoğraflar Instagram'da",instaP:"Yeni ürünlerden ilk siz haberdar olun.",
   footTxt:"El yapımı ev yemekleri",
   modalH:"Mağaza seçin",modalP:"Seçilen mağazanın WhatsApp'ı açılacak",modalClose:"Kapat",
   waMsg:"Merhaba! Multicook'tan sipariş vermek istiyorum"
 },
 uk:{
+  hoursLbl:"Пн–Сб",sunOff:"Нд — вихідний",revWord:"відгуків",
+  revKicker:"Відгуки",revH2:"Нас люблять покупці",revP:"Середня оцінка 4,9 ★ за 467 відгуками в Google у всіх чотирьох магазинах.",revSrc:"Відгук у Google",revAll:"Усі відгуки в Google",
   navAbout:"Про нас",navMenu:"Меню",navStores:"Магазини",navOrder:"Як замовити",
   ctaOrder:"Замовити",ctaOrderWa:"Замовити у WhatsApp",ctaStores:"Наші магазини",
   heroTag:"Анталія · Аланія — 4 магазини",
@@ -528,12 +599,13 @@ uk:{
   f4h:"Вечеря за 10 хвилин",f4p:"Відварити, обсмажити чи розігріти — і на столі гаряча домашня їжа.",
   menuKicker:"Меню",menuH2:"Що в нас у морозилці",menuP:"Понад 40 позицій: від класичних вареників до ситних готових страв. Точний асортимент і ціни — у WhatsApp вашого магазину.",
   menuMore:"Дізнатися наявність і ціни",
-  storesKicker:"Магазини",storesH2:"4 магазини в Анталії та Аланії",storesP:"Оберіть найближчий магазин і напишіть нам у WhatsApp — підтвердимо наявність, суму та зручний час.",
+  storesKicker:"Магазини",storesH2:"4 магазини в Анталії та Аланії",storesP:"Оберіть магазин свого міста й напишіть у WhatsApp — зберемо замовлення, надішлемо чек і привеземо кур'єром з 16:00 до 20:00.",
   storeWa:"Замовити у WhatsApp",storeMap:"Відкрити на мапі",
-  orderKicker:"Як замовити",orderH2:"Три кроки до смачної вечері",
-  s1h:"Оберіть магазин",s1p:"Той, що ближче до вас — в Анталії чи Аланії.",
-  s2h:"Напишіть у WhatsApp",s2p:"Розкажіть, що бажаєте, — підкажемо щодо наявності та смаків.",
-  s3h:"Отримайте замовлення",s3p:"Домовимося про доставку чи самовивіз у зручний час.",
+  orderKicker:"Як замовити",orderH2:"Чотири кроки до смачної вечері",
+  s1h:"Напишіть у WhatsApp",s1p:"Оберіть магазин свого міста й надішліть список бажаних позицій.",
+  s2h:"Погодьте чек",s2p:"Ми зберемо ваше замовлення та надішлемо чек на погодження.",
+  s3h:"Оплатіть зручно",s3p:"Готівкою кур'єру або переказом на IBAN турецької картки.",
+  s4h:"Зустрічайте кур'єра",s4p:"Кур'єр на маршруті щодня, крім неділі, з 16:00 до 20:00.",
   instaH2:"Новинки, акції та смачні фото — в нашому Instagram",instaP:"Підписуйтеся, щоб першими дізнаватися про свіжі надходження.",
   footTxt:"Домашні напівфабрикати ручної роботи",
   modalH:"Оберіть магазин",modalP:"Відкриється WhatsApp обраного магазину",modalClose:"Закрити",
@@ -545,11 +617,16 @@ uk:{
 /* ---------- Дальше логика сайта, править не нужно ---------- */
 const ICON_PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 const ICON_PHONE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>';
+const ICON_CLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const gUrl=s=>`https://www.google.com/maps/place/?q=place_id:${s.gid}`;
 const ICON_WA=document.querySelector('.fab svg').outerHTML;
 let lang='ru';
 
+/* ✏️ Язык сообщения в WhatsApp: на украинской версии сайта пишем по-русски (кассиры не знают украинский) */
+const WA_LANG = { ru:"ru", tr:"tr", uk:"ru" };
 function waLink(s){
-  const msg=`${T[lang].waMsg} (${s.city[lang]} — ${s.name[lang]})`;
+  const L=WA_LANG[lang]||"ru";
+  const msg=`${T[L].waMsg} (${s.city[L]} — ${s.name[L]})`;
   return `https://wa.me/${s.wa}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -577,9 +654,19 @@ function render(){
       <div class="store__city">${s.city[lang]}</div>
       <h3>${s.name[lang]}</h3>
       <div class="store__row">${ICON_PIN}<div>${s.address}<br><a class="store__map" href="${s.map}" target="_blank" rel="noopener">${t.storeMap}</a></div></div>
+      <div class="store__row">${ICON_CLOCK}<div><b>${t.hoursLbl} ${s.hours}</b><br>${t.sunOff}</div></div>
       <div class="store__row">${ICON_PHONE}<b>${s.phone}</b></div>
+      <a class="store__rate" href="${gUrl(s)}" target="_blank" rel="noopener"><span>★ ${s.rating}</span> ${s.reviews} ${t.revWord} Google</a>
       <a class="btn btn--wa" href="${waLink(s)}" target="_blank" rel="noopener">${ICON_WA}${t.storeWa}</a>
     </div>`).join('');
+
+  // отзывы
+  document.getElementById('revList').innerHTML=REVIEWS.map((r,i)=>{const s=STORES[r.store];return `
+    <figure class="rev rv d${i%3}">
+      <div class="rev__stars">★★★★★</div>
+      <blockquote>${r[lang]}</blockquote>
+      <figcaption><a href="${gUrl(s)}" target="_blank" rel="noopener">${t.revSrc} · ${s.city[lang]} — ${s.name[lang]}</a></figcaption>
+    </figure>`}).join('');
 
   // окно выбора
   document.getElementById('modalList').innerHTML=STORES.map(s=>`
