@@ -48,7 +48,7 @@ h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em
 .nav__links a:hover::after{width:100%}
 .nav__right{display:flex;align-items:center;gap:10px}
 .lang{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px}
-.lang button{border:0;background:none;font:700 12px Manrope,sans-serif;padding:7px 10px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.lang button{border:0;background:none;font:700 12px Manrope,sans-serif;padding:7px 9px;border-radius:999px;cursor:pointer;color:var(--muted)}
 .lang button.on{background:var(--ink);color:#fff}
 
 /* ---------- Кнопки ---------- */
@@ -263,6 +263,7 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
         <button data-l="ru">RU</button>
         <button data-l="tr">TR</button>
         <button data-l="uk">UA</button>
+        <button data-l="en">EN</button>
       </div>
       <button class="btn btn--red js-order" data-t="ctaOrder"></button>
     </div>
@@ -417,26 +418,26 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
    gid — ID места в Google Картах (для ссылки "отзывы")
    ===================================================================== */
 const STORES = [
-  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
-    name:{ru:"Муратпаша / Кепез",tr:"Muratpaşa / Kepez",uk:"Муратпаша / Кепез"},
+  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія",en:"Antalya"},
+    name:{ru:"Муратпаша / Кепез",tr:"Muratpaşa / Kepez",uk:"Муратпаша / Кепез",en:"Muratpaşa / Kepez"},
     address:"Varlık Mah. Piri Reis Cad. Huzur Apt. No:34/A, Muratpaşa",
     hours:"09:00–19:00", rating:"4,9", reviews:58, gid:"ChIJvaAQlfCRwxQRZCxMqWw-2io",
     phone:"+90 505 313 31 97", wa:"905053133197",
     map:"https://share.google/zVskLCj0gSjSHdmTz" },
-  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
-    name:{ru:"Коньяалты",tr:"Konyaaltı",uk:"Коньяалти"},
+  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія",en:"Antalya"},
+    name:{ru:"Коньяалты",tr:"Konyaaltı",uk:"Коньяалти",en:"Konyaaltı"},
     address:"Liman Mah. 20. Sk. Çiçek Apt. No:27, 07130 Konyaaltı",
     hours:"10:00–20:00", rating:"4,9", reviews:92, gid:"ChIJU2I_dxWTwxQRiTikWwu41T8",
     phone:"+90 530 267 01 81", wa:"905302670181",
     map:"https://share.google/8mDsDqb6eQ6Lv1tFz" },
-  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
-    name:{ru:"Центр (Клеопатра)",tr:"Merkez (Kleopatra)",uk:"Центр (Клеопатра)"},
+  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія",en:"Alanya"},
+    name:{ru:"Центр (Клеопатра)",tr:"Merkez (Kleopatra)",uk:"Центр (Клеопатра)",en:"Center (Kleopatra)"},
     address:"Saray Mah. Oral Sk. No:16A, Alanya",
     hours:"10:00–20:00", rating:"4,9", reviews:229, gid:"ChIJ9dtJOsij3BQRLvfXJBKN9hw",
     phone:"+90 551 467 67 35", wa:"905514676735",
     map:"https://share.google/OnviwlSqA9bieTTDK" },
-  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
-    name:{ru:"Махмутлар",tr:"Mahmutlar",uk:"Махмутлар"},
+  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія",en:"Alanya"},
+    name:{ru:"Махмутлар",tr:"Mahmutlar",uk:"Махмутлар",en:"Mahmutlar"},
     address:"Mahmutlar Mah. 207 Sk. Sezgin Sitesi No:8B, Alanya",
     hours:"10:00–20:00", rating:"4,8", reviews:88, gid:"ChIJw1EnUEib3BQRZs2ioYleCD4",
     phone:"+90 551 467 67 35", wa:"905514676735",
@@ -452,35 +453,43 @@ const DISHES = [
   { img:IMG("rN4pZTR6G93tQo6jMtIRiNXSXnQIQf08jt4DxQnL"),
     ru:["Вареники","Картофель, капуста, творог, вишня — классика, как дома"],
     tr:["Vareniki","Patates, lahana, lor peyniri, vişne — ev usulü klasik"],
-    uk:["Вареники","Картопля, капуста, сир, вишня — класика, як удома"] },
+    uk:["Вареники","Картопля, капуста, сир, вишня — класика, як удома"],
+    en:["Vareniki","Potato, cabbage, cottage cheese, cherry — homestyle classics"] },
   { img:IMG("02FwlQo3P68jvMod1aOgTWcUEBQqQ4DcnCvODpp3"),
     ru:["Пельмени","Говядина, индейка, курица — сочный фарш, тонкое тесто"],
     tr:["Pelmeni","Dana, hindi, tavuk — sulu iç, ince hamur"],
-    uk:["Пельмені","Яловичина, індичка, курка — соковитий фарш"] },
+    uk:["Пельмені","Яловичина, індичка, курка — соковитий фарш"],
+    en:["Pelmeni","Beef, turkey, chicken — juicy filling, thin dough"] },
   { img:IMG("PcpuyzWZ70FyL0qC4UFEVCESerswuT0FOkx1F08N"),
     ru:["Сырники","С малиной, вишней, шоколадом или классические"],
     tr:["Sirniki","Ahududulu, vişneli, çikolatalı veya klasik"],
-    uk:["Сирники","З малиною, вишнею, шоколадом або класичні"] },
+    uk:["Сирники","З малиною, вишнею, шоколадом або класичні"],
+    en:["Syrniki","Cottage cheese pancakes — classic, raspberry, cherry or chocolate"] },
   { img:IMG("y4NMFoSvWWq92C9EJhvJupoNmcHj8EY11OzoYkMY"),
     ru:["Блины","Сладкие и сытные начинки — больше 15 вкусов"],
     tr:["Krep","Tatlı ve tuzlu — 15'ten fazla çeşit"],
-    uk:["Млинці","Солодкі та ситні начинки — понад 15 смаків"] },
+    uk:["Млинці","Солодкі та ситні начинки — понад 15 смаків"],
+    en:["Crepes","Sweet and savory fillings — over 15 flavors"] },
   { img:IMG("0Z3ffDNAPe7LipYqKyoYcBdlTUDiA6weDgWhDLcO"),
     ru:["Чебуреки","Хрустящее тесто, щедрая начинка"],
     tr:["Çibörek","Çıtır hamur, bol iç"],
-    uk:["Чебуреки","Хрустке тісто, щедра начинка"] },
+    uk:["Чебуреки","Хрустке тісто, щедра начинка"],
+    en:["Chebureki","Crispy dough, generous filling"] },
   { img:IMG("FjKJOXhNK3YFSJ5XQ4DAsqDZJM6rj0QldceiTGZv"),
     ru:["Котлеты и фрикадельки","По-киевски, куриные, из индейки и говядины"],
     tr:["Köfte ve kotlet","Kiev usulü, tavuk, hindi ve dana"],
-    uk:["Котлети та фрикадельки","По-київськи, курячі, з індички та яловичини"] },
+    uk:["Котлети та фрикадельки","По-київськи, курячі, з індички та яловичини"],
+    en:["Cutlets & meatballs","Chicken Kiev, chicken, turkey and beef"] },
   { img:IMG("iTJtKt4nFmR2GBtrPgKHJnCtZ3BlODE3ixymL5PP"),
     ru:["Драники и зразы","Румяные, с хрустящей корочкой"],
     tr:["Patates köftesi","Kızarmış, çıtır kabuklu"],
-    uk:["Деруни та зрази","Рум'яні, з хрусткою скоринкою"] },
+    uk:["Деруни та зрази","Рум'яні, з хрусткою скоринкою"],
+    en:["Potato pancakes & zrazy","Golden and crispy"] },
   { img:IMG("huDewFg98n7jpEeaW6VdSv7hQ81mEID8M3C7Pj8x"),
     ru:["Голубцы и перцы","А ещё борщ, супы-кремы, лазанья и жюльен"],
     tr:["Sarma ve dolma","Ayrıca borş, kremalı çorbalar, lazanya"],
-    uk:["Голубці та перці","А ще борщ, крем-супи, лазанья та жульєн"] },
+    uk:["Голубці та перці","А ще борщ, крем-супи, лазанья та жульєн"],
+    en:["Cabbage rolls & stuffed peppers","Plus borscht, cream soups, lasagna and julienne"] },
 ];
 
 /* =====================================================================
@@ -491,31 +500,37 @@ const REVIEWS = [
   { store:0,
     ru:"Если бы можно было поставить 100 звёзд — поставила бы. Заказываю готовую еду во многих местах Анталии, но Multicook — лучший. Котлеты, голубцы, паштет, блины, пельмени, вареники — всё невероятно вкусно. Как дома!",
     tr:"Yapabilseydim 100 yıldız verirdim. Antalya'da birçok yerden hazır yemek alıyorum ama Multicook en iyisi. Köfte, sarma, pate, krep, pelmeni, vareniki — hepsi inanılmaz lezzetli. Ev gibi!",
-    uk:"Якби можна було поставити 100 зірок — поставила б. Замовляю готову їжу в багатьох місцях Анталії, але Multicook — найкращий. Котлети, голубці, паштет, млинці, пельмені, вареники — усе неймовірно смачно. Як удома!" },
+    uk:"Якби можна було поставити 100 зірок — поставила б. Замовляю готову їжу в багатьох місцях Анталії, але Multicook — найкращий. Котлети, голубці, паштет, млинці, пельмені, вареники — усе неймовірно смачно. Як удома!",
+    en:"If I could give 100 stars, I would. I order ready meals from many places in Antalya, but Multicook is the best. Cutlets, cabbage rolls, pâté, crepes, pelmeni, vareniki — all incredibly tasty. Just like home!" },
   { store:1,
     ru:"Очень вкусно и недорого. Девушка работает супер приятная — проконсультирует и поможет выбрать. Будем скучать по этой прекрасной еде ❤️",
     tr:"Çok lezzetli ve uygun fiyatlı. Çalışan hanım çok güler yüzlü — bilgi veriyor, seçmenize yardım ediyor. Bu harika yemekleri özleyeceğiz ❤️",
-    uk:"Дуже смачно й недорого. Дівчина працює супер приємна — проконсультує і допоможе обрати. Сумуватимемо за цією чудовою їжею ❤️" },
+    uk:"Дуже смачно й недорого. Дівчина працює супер приємна — проконсультує і допоможе обрати. Сумуватимемо за цією чудовою їжею ❤️",
+    en:"Very tasty and affordable. The girl working there is super friendly — she'll advise and help you choose. We'll miss this wonderful food ❤️" },
   { store:2,
     ru:"Еда очень вкусная и всегда свежезамороженная. Продавец всегда встречает с улыбкой и помогает выбрать. Рекомендую 👍",
     tr:"Yemekler çok lezzetli ve her zaman taze dondurulmuş. Satıcı bizi hep gülümseyerek karşılıyor ve seçmemize yardım ediyor. Tavsiye ederim 👍",
-    uk:"Їжа дуже смачна й завжди свіжозаморожена. Продавчиня завжди зустрічає з усмішкою і допомагає обрати. Рекомендую 👍" },
+    uk:"Їжа дуже смачна й завжди свіжозаморожена. Продавчиня завжди зустрічає з усмішкою і допомагає обрати. Рекомендую 👍",
+    en:"The food is really tasty and always freshly frozen. The seller always greets us with a smile and helps us choose. Recommended 👍" },
   { store:1,
     ru:"Хочу выразить благодарность! Блины с разными начинками, сырники, котлеты — всё просто потрясающе. Выручаете, когда нет времени готовить. И цены приятные.",
     tr:"Teşekkür etmek istiyorum! Farklı iç harçlı krepler, sirniki, köfteler — hepsi harika. Yemek yapmaya vaktim olmadığında hayat kurtarıyorsunuz. Fiyatlar da uygun.",
-    uk:"Хочу висловити подяку! Млинці з різними начинками, сирники, котлети — усе просто чудово. Рятуєте, коли немає часу готувати. І ціни приємні." },
+    uk:"Хочу висловити подяку! Млинці з різними начинками, сирники, котлети — усе просто чудово. Рятуєте, коли немає часу готувати. І ціни приємні.",
+    en:"I want to say thank you! Crepes with different fillings, syrniki, cutlets — everything is simply amazing. A lifesaver when there's no time to cook. And the prices are nice." },
   { store:3,
     ru:"В Аланье не хочется тратить время на готовку — лучше провести его у моря 🌊 Поэтому захожу и беру что-то быстрое и вкусное. Мои фавориты: перцы, сырники, куриные котлеты!",
     tr:"Alanya'da yemek yapmakla vakit kaybetmek istemiyorum — denizde geçirmeyi tercih ederim 🌊 Bu yüzden gelip hızlı ve lezzetli bir şey alıyorum. Favorilerim: biber dolması, sirniki, tavuk köfte!",
-    uk:"В Аланії не хочеться витрачати час на готування — краще провести його біля моря 🌊 Тож заходжу й беру щось швидке та смачне. Мої фаворити: перці, сирники, курячі котлети!" },
+    uk:"В Аланії не хочеться витрачати час на готування — краще провести його біля моря 🌊 Тож заходжу й беру щось швидке та смачне. Мої фаворити: перці, сирники, курячі котлети!",
+    en:"In Alanya I don't want to waste time cooking — I'd rather spend it by the sea 🌊 So I come in and grab something quick and tasty. My favorites: stuffed peppers, syrniki, chicken cutlets!" },
   { store:0,
     ru:"Сегодня попробовали блины, чебуреки, котлеты и вареники. Всё очень вкусно, семья просила добавки! Чебуреки даже остыть не успели. Будем постоянными клиентами ❤️",
     tr:"Bugün krep, çibörek, köfte ve vareniki denedik. Her şey çok lezzetliydi, ailem tekrar istedi! Çibörekler soğumaya bile fırsat bulamadı. Kesinlikle müdavimiz olacağız ❤️",
-    uk:"Сьогодні скуштували млинці, чебуреки, котлети й вареники. Усе дуже смачно, родина просила ще! Чебуреки навіть охолонути не встигли. Будемо постійними клієнтами ❤️" },
+    uk:"Сьогодні скуштували млинці, чебуреки, котлети й вареники. Усе дуже смачно, родина просила ще! Чебуреки навіть охолонути не встигли. Будемо постійними клієнтами ❤️",
+    en:"Today we tried crepes, chebureki, cutlets and vareniki. Everything was delicious, the family asked for more! The chebureki didn't even have time to cool down. We'll definitely be regulars ❤️" },
 ];
 
 /* =====================================================================
-   ✏️ ЗОНА 4: ВСЕ ТЕКСТЫ САЙТА на 3 языках (ru / tr / uk)
+   ✏️ ЗОНА 4: ВСЕ ТЕКСТЫ САЙТА на 4 языках (ru / tr / uk / en)
    ===================================================================== */
 const T = {
 ru:{
@@ -610,6 +625,37 @@ uk:{
   footTxt:"Домашні напівфабрикати ручної роботи",
   modalH:"Оберіть магазин",modalP:"Відкриється WhatsApp обраного магазину",modalClose:"Закрити",
   waMsg:"Вітаю! Хочу зробити замовлення в Multicook"
+},
+en:{
+  hoursLbl:"Mon–Sat",sunOff:"Sunday closed",revWord:"reviews",
+  revKicker:"Reviews",revH2:"Our customers love us",revP:"Average rating 4.9 ★ from 467 Google reviews across all four stores.",revSrc:"Google review",revAll:"All Google reviews",
+  navAbout:"About",navMenu:"Menu",navStores:"Stores",navOrder:"How to order",
+  ctaOrder:"Order",ctaOrderWa:"Order on WhatsApp",ctaStores:"Our stores",
+  heroTag:"Antalya · Alanya — 4 stores",
+  heroH1a:"Homemade food,",heroH1b:"handcrafted",
+  heroLead:"Vareniki, pelmeni, syrniki, crepes and ready meals — handmade every day from family recipes. Take it out of the freezer and dinner is ready in 10 minutes.",
+  stat1:"stores near you",stat2:"dishes to choose from",stat3:"handmade",
+  sticker:"Just like mom's!",
+  marq:["Vareniki","Pelmeni","Syrniki","Crepes","Chebureki","Borscht","Cabbage rolls","Cutlets"],
+  aboutKicker:"Why Multicook",aboutH2:"The taste you remember from childhood",
+  aboutP:"We cook the way you cook at home for your loved ones: unhurried, with simple and honest ingredients. We just freeze it quickly so the taste waits for you.",
+  f1h:"Made by hand",f1p:"Every dumpling is handcrafted by our cooks — not a factory line.",
+  f2h:"Honest ingredients",f2p:"Real meat, homemade cottage cheese, fresh vegetables. No unnecessary additives.",
+  f3h:"Blast frozen",f3p:"Keeps the taste, texture and nutrients — as if freshly made.",
+  f4h:"Dinner in 10 minutes",f4p:"Boil, fry or heat up — and a hot homemade meal is on the table.",
+  menuKicker:"Menu",menuH2:"What's in our freezer",menuP:"Over 40 items: from classic vareniki to hearty ready meals. Current range and prices — on your store's WhatsApp.",
+  menuMore:"Check availability & prices",
+  storesKicker:"Stores",storesH2:"4 stores in Antalya and Alanya",storesP:"Choose the store in your city and message us on WhatsApp — we'll pack your order, send the receipt and deliver by courier between 16:00 and 20:00.",
+  storeWa:"Order on WhatsApp",storeMap:"Open in Maps",
+  orderKicker:"How to order",orderH2:"Four steps to a tasty dinner",
+  s1h:"Message us on WhatsApp",s1p:"Choose the store in your city and send a list of the items you want.",
+  s2h:"Confirm the receipt",s2p:"We'll pack your order and send you the receipt to confirm.",
+  s3h:"Pay your way",s3p:"Cash to the courier or bank transfer to a Turkish IBAN.",
+  s4h:"Meet the courier",s4p:"Our courier delivers every day except Sunday, 16:00–20:00.",
+  instaH2:"New products, deals and tasty photos — on our Instagram",instaP:"Follow us to be the first to hear about new arrivals.",
+  footTxt:"Handmade homestyle frozen food",
+  modalH:"Choose a store",modalP:"WhatsApp of the selected store will open",modalClose:"Close",
+  waMsg:"Hello! I'd like to place an order at Multicook"
 }};
 /* ===================================================================== */
 
@@ -622,8 +668,8 @@ const gUrl=s=>`https://www.google.com/maps/place/?q=place_id:${s.gid}`;
 const ICON_WA=document.querySelector('.fab svg').outerHTML;
 let lang='ru';
 
-/* ✏️ Язык сообщения в WhatsApp: на украинской версии сайта пишем по-русски (кассиры не знают украинский) */
-const WA_LANG = { ru:"ru", tr:"tr", uk:"ru" };
+/* ✏️ Язык сообщения в WhatsApp: на украинской и английской версиях пишем по-русски (кассиры их не знают) */
+const WA_LANG = { ru:"ru", tr:"tr", uk:"ru", en:"ru" };
 function waLink(s){
   const L=WA_LANG[lang]||"ru";
   const msg=`${T[L].waMsg} (${s.city[L]} — ${s.name[L]})`;
@@ -686,7 +732,7 @@ function observe(){
 function pickLang(){
   try{const s=localStorage.getItem('mc_lang'); if(T[s]) return s;}catch(e){}
   const n=(navigator.language||'ru').slice(0,2);
-  return n==='tr'?'tr':n==='uk'?'uk':'ru';
+  return n==='tr'?'tr':n==='uk'?'uk':n==='ru'?'ru':n==='en'?'en':'ru';
 }
 document.getElementById('lang').addEventListener('click',e=>{
   const l=e.target.dataset.l; if(!l) return;
