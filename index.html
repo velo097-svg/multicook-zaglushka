@@ -282,10 +282,10 @@ footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
     <div class="hero__art rv d2">
       <div class="ring"></div>
       <div class="steam"><span></span><span></span><span></span></div>
-      <div class="plate"><img src="https://i.ibb.co/dsLZ4rwx/image.jpg" alt=""></div>
-      <div class="bubble bubble--1"><img src="https://i.ibb.co/Cpgf3Xvx/image.jpg" alt=""></div>
-      <div class="bubble bubble--2"><img src="https://i.ibb.co/2YsjtPm1/image.jpg" alt=""></div>
-      <div class="bubble bubble--3"><img src="https://i.ibb.co/5xXm91xZ/image.jpg" alt=""></div>
+      <div class="plate"><img src="https://multicook-franchise.com/storage/uploads/images/rN4pZTR6G93tQo6jMtIRiNXSXnQIQf08jt4DxQnL/rN4pZTR6G93tQo6jMtIRiNXSXnQIQf08jt4DxQnL_res600x600_opt.jpg" alt=""></div>
+      <div class="bubble bubble--1"><img src="https://multicook-franchise.com/storage/uploads/images/PcpuyzWZ70FyL0qC4UFEVCESerswuT0FOkx1F08N/PcpuyzWZ70FyL0qC4UFEVCESerswuT0FOkx1F08N_res600x600_opt.jpg" alt=""></div>
+      <div class="bubble bubble--2"><img src="https://multicook-franchise.com/storage/uploads/images/02FwlQo3P68jvMod1aOgTWcUEBQqQ4DcnCvODpp3/02FwlQo3P68jvMod1aOgTWcUEBQqQ4DcnCvODpp3_res600x600_opt.jpg" alt=""></div>
+      <div class="bubble bubble--3"><img src="https://multicook-franchise.com/storage/uploads/images/y4NMFoSvWWq92C9EJhvJupoNmcHj8EY11OzoYkMY/y4NMFoSvWWq92C9EJhvJupoNmcHj8EY11OzoYkMY_res600x600_opt.jpg" alt=""></div>
       <div class="sticker" data-t="sticker"></div>
     </div>
   </div>
@@ -413,37 +413,42 @@ const STORES = [
 
 /* =====================================================================
    ✏️ ЗОНА 3: БЛЮДА В БЛОКЕ "МЕНЮ" — фото + названия
-   wide:true — карточка в 2 колонки
+   IMG("...") — фото с сайта франшизы; можно вставить любую прямую ссылку в кавычках
    ===================================================================== */
+const IMG = id => `https://multicook-franchise.com/storage/uploads/images/${id}/${id}_res600x600_opt.jpg`;
 const DISHES = [
-  { img:"https://i.ibb.co/G4Gwy31C/image.jpg", wide:true,
+  { img:IMG("rN4pZTR6G93tQo6jMtIRiNXSXnQIQf08jt4DxQnL"),
     ru:["Вареники","Картофель, капуста, творог, вишня — классика, как дома"],
     tr:["Vareniki","Patates, lahana, lor peyniri, vişne — ev usulü klasik"],
     uk:["Вареники","Картопля, капуста, сир, вишня — класика, як удома"] },
-  { img:"https://i.ibb.co/2YsjtPm1/image.jpg",
+  { img:IMG("02FwlQo3P68jvMod1aOgTWcUEBQqQ4DcnCvODpp3"),
     ru:["Пельмени","Говядина, индейка, курица — сочный фарш, тонкое тесто"],
     tr:["Pelmeni","Dana, hindi, tavuk — sulu iç, ince hamur"],
     uk:["Пельмені","Яловичина, індичка, курка — соковитий фарш"] },
-  { img:"https://i.ibb.co/Cpgf3Xvx/image.jpg",
+  { img:IMG("PcpuyzWZ70FyL0qC4UFEVCESerswuT0FOkx1F08N"),
     ru:["Сырники","С малиной, вишней, шоколадом или классические"],
     tr:["Sirniki","Ahududulu, vişneli, çikolatalı veya klasik"],
     uk:["Сирники","З малиною, вишнею, шоколадом або класичні"] },
-  { img:"https://i.ibb.co/5xXm91xZ/image.jpg",
+  { img:IMG("y4NMFoSvWWq92C9EJhvJupoNmcHj8EY11OzoYkMY"),
     ru:["Блины","Сладкие и сытные начинки — больше 15 вкусов"],
     tr:["Krep","Tatlı ve tuzlu — 15'ten fazla çeşit"],
     uk:["Млинці","Солодкі та ситні начинки — понад 15 смаків"] },
-  { img:"https://i.ibb.co/S4fb1LnF/image.jpg",
+  { img:IMG("0Z3ffDNAPe7LipYqKyoYcBdlTUDiA6weDgWhDLcO"),
     ru:["Чебуреки","Хрустящее тесто, щедрая начинка"],
     tr:["Çibörek","Çıtır hamur, bol iç"],
     uk:["Чебуреки","Хрустке тісто, щедра начинка"] },
-  { img:"https://i.ibb.co/0jv2QvrX/image.jpg",
-    ru:["Супы","Борщ и супы-кремы — разогрел и готово"],
-    tr:["Çorbalar","Borş ve kremalı çorbalar — ısıt ve ye"],
-    uk:["Супи","Борщ і крем-супи — розігрів і готово"] },
-  { img:"https://i.ibb.co/B549Cg15/image.jpg", wide:true,
-    ru:["Котлеты и готовые блюда","По-киевски, голубцы, перцы, лазанья, наггетсы"],
-    tr:["Köfte ve hazır yemekler","Kiev usulü, sarma, dolma, lazanya, nugget"],
-    uk:["Котлети та готові страви","По-київськи, голубці, перці, лазанья"] },
+  { img:IMG("FjKJOXhNK3YFSJ5XQ4DAsqDZJM6rj0QldceiTGZv"),
+    ru:["Котлеты и фрикадельки","По-киевски, куриные, из индейки и говядины"],
+    tr:["Köfte ve kotlet","Kiev usulü, tavuk, hindi ve dana"],
+    uk:["Котлети та фрикадельки","По-київськи, курячі, з індички та яловичини"] },
+  { img:IMG("iTJtKt4nFmR2GBtrPgKHJnCtZ3BlODE3ixymL5PP"),
+    ru:["Драники и зразы","Румяные, с хрустящей корочкой"],
+    tr:["Patates köftesi","Kızarmış, çıtır kabuklu"],
+    uk:["Деруни та зрази","Рум'яні, з хрусткою скоринкою"] },
+  { img:IMG("huDewFg98n7jpEeaW6VdSv7hQ81mEID8M3C7Pj8x"),
+    ru:["Голубцы и перцы","А ещё борщ, супы-кремы, лазанья и жюльен"],
+    tr:["Sarma ve dolma","Ayrıca borş, kremalı çorbalar, lazanya"],
+    uk:["Голубці та перці","А ще борщ, крем-супи, лазанья та жульєн"] },
 ];
 
 /* =====================================================================
