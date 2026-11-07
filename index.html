@@ -3,98 +3,616 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multicook — сайт в разработке</title>
-<style>
-  /* ===== ✏️ ЦВЕТА — меняй здесь ===== */
-  :root{
-    --bg:#f7f3ee;      /* фон страницы */
-    --card:#ffffff;    /* фон карточек */
-    --text:#2b2b2b;    /* основной текст */
-    --muted:#777;      /* второстепенный текст */
-    --accent:#c0392b;  /* фирменный цвет (заголовок) */
-    --wa:#25d366;      /* кнопка WhatsApp */
-    --call:#2b2b2b;    /* кнопка Позвонить */
-    --insta:#d62976;   /* кнопка Instagram */
-  }
-  /* ================================== */
+<title>Multicook — домашняя еда ручной лепки в Анталье и Аланье</title>
+<meta name="description" content="Multicook — вареники, пельмени, сырники, блины и готовые блюда ручной работы. 4 магазина в Анталье и Аланье. Заказ в WhatsApp.">
+<link rel="icon" type="image/png" href="logo.png">
+<meta property="og:title" content="Multicook — Анталья и Аланья">
+<meta property="og:image" content="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
-       font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-       display:flex;justify-content:center;padding:32px 16px}
-  .wrap{max-width:640px;width:100%;text-align:center}
-  h1{color:var(--accent);font-size:40px;margin:0 0 8px}
-  .lead{font-size:20px;margin:4px 0}
-  .lead.tr{color:var(--muted);font-size:17px}
-  .sub{margin:24px 0 16px;font-size:18px;font-weight:600}
-  .sub span{display:block;font-weight:400;color:var(--muted);font-size:15px}
-  .cards{display:grid;gap:14px}
-  .card{background:var(--card);border-radius:14px;padding:18px;
-        box-shadow:0 2px 10px rgba(0,0,0,.06)}
-  .city{font-size:19px;font-weight:700;margin:0 0 4px}
-  .phone{color:var(--muted);margin:0 0 12px;font-size:16px}
-  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-block;padding:11px 18px;border-radius:10px;color:#fff;
-       text-decoration:none;font-weight:600;font-size:15px;min-width:140px}
-  .wa{background:var(--wa)}
-  .call{background:var(--call)}
-  .insta{background:var(--insta);margin-top:24px}
-  .foot{margin-top:28px;color:var(--muted);font-size:13px}
+<style>
+/* =====================================================================
+   ✏️ ЗОНА 1: ЦВЕТА САЙТА — меняй здесь
+   ===================================================================== */
+:root{
+  --red:#d42027;        /* фирменный красный (как в логотипе) */
+  --red-dark:#a9151b;   /* красный при наведении */
+  --ink:#141414;        /* почти чёрный — текст и тёмные блоки */
+  --cream:#fbf5ec;      /* светлый тёплый фон */
+  --paper:#ffffff;      /* фон карточек */
+  --muted:#6f6a63;      /* серый текст */
+  --line:#eadfce;       /* тонкие линии */
+  --wa:#25d366;         /* зелёный WhatsApp */
+}
+/* ===================================================================== */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--cream);color:var(--ink);overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em;line-height:1.05}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* ---------- Шапка ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,box-shadow .3s}
+.nav.scrolled{background:rgba(251,245,236,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+.nav__in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:72px}
+.nav__logo img{height:52px;width:auto;transition:transform .3s}
+.nav__logo:hover img{transform:rotate(-6deg) scale(1.05)}
+.nav__links{display:flex;gap:26px;font-weight:700;font-size:15px}
+.nav__links a{position:relative}
+.nav__links a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--red);transition:width .25s}
+.nav__links a:hover::after{width:100%}
+.nav__right{display:flex;align-items:center;gap:10px}
+.lang{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;font:700 12px Manrope,sans-serif;padding:7px 10px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.lang button.on{background:var(--ink);color:#fff}
+
+/* ---------- Кнопки ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:800 15px Manrope,sans-serif;padding:15px 24px;border-radius:999px;transition:transform .2s,background .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn--red{background:var(--red);color:#fff;box-shadow:0 10px 24px -10px var(--red)}
+.btn--red:hover{background:var(--red-dark)}
+.btn--ghost{background:transparent;border:2px solid var(--ink)}
+.btn--wa{background:var(--wa);color:#fff;width:100%;justify-content:center}
+.btn--wa:hover{background:#1ebe5a}
+.btn svg{width:20px;height:20px;flex:none}
+.nav .btn{padding:11px 18px;font-size:14px}
+
+/* ---------- Первый экран ---------- */
+.hero{position:relative;padding:130px 0 70px;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,32,39,.5)}50%{box-shadow:0 0 0 7px rgba(212,32,39,0)}}
+.hero h1{font-size:clamp(40px,6.4vw,82px);font-weight:900;margin:22px 0 20px}
+.hero h1 em{font-style:normal;color:var(--red);position:relative;white-space:nowrap}
+.hero h1 em svg{position:absolute;left:0;bottom:-10px;width:100%;height:16px}
+.hero h1 em svg path{stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1.2s .8s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero p.lead{font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:520px;line-height:1.55}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero__stats{display:flex;gap:30px;margin-top:40px;flex-wrap:wrap}
+.hero__stats b{display:block;font-family:Unbounded;font-size:30px}
+.hero__stats span{font-size:13px;color:var(--muted);font-weight:600}
+
+.hero__art{position:relative;aspect-ratio:1;max-width:520px;margin-left:auto;width:100%}
+.plate{position:absolute;inset:8%;border-radius:50%;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.45);animation:spin 60s linear infinite}
+.plate img{width:100%;height:100%;object-fit:cover}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ring{position:absolute;inset:0;border:2px dashed var(--red);border-radius:50%;opacity:.35;animation:spin 40s linear infinite reverse}
+.bubble{position:absolute;width:30%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:6px solid var(--cream);box-shadow:0 18px 40px -16px rgba(0,0,0,.45);animation:float 6s ease-in-out infinite}
+.bubble img{width:100%;height:100%;object-fit:cover}
+.bubble--1{top:-2%;right:2%}
+.bubble--2{bottom:0;left:-4%;animation-delay:-2s}
+.bubble--3{bottom:6%;right:-2%;width:22%;animation-delay:-4s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.sticker{position:absolute;top:8%;left:-2%;background:var(--red);color:#fff;font:900 13px/1.15 Unbounded;text-align:center;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;padding:12px;transform:rotate(-12deg);animation:wob 4s ease-in-out infinite;box-shadow:0 12px 24px -10px var(--red)}
+@keyframes wob{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(4deg)}}
+
+/* Пар над тарелкой */
+.steam{position:absolute;top:-14%;left:44%;display:flex;gap:10px;pointer-events:none}
+.steam span{width:8px;height:60px;border-radius:8px;background:linear-gradient(to top,rgba(212,32,39,.0),rgba(212,32,39,.35));filter:blur(3px);animation:steam 3s ease-in-out infinite}
+.steam span:nth-child(2){animation-delay:.6s;height:80px}
+.steam span:nth-child(3){animation-delay:1.2s}
+@keyframes steam{0%{transform:translateY(20px) scaleY(.6);opacity:0}40%{opacity:1}100%{transform:translateY(-30px) scaleY(1.2) translateX(6px);opacity:0}}
+
+/* ---------- Бегущая строка ---------- */
+.marquee{background:var(--ink);color:#fff;overflow:hidden;padding:18px 0;transform:rotate(-1.5deg);margin:10px -10px 0}
+.marquee__track{display:flex;gap:40px;width:max-content;animation:marq 28s linear infinite;font:700 22px Unbounded;white-space:nowrap}
+.marquee__track span{display:flex;align-items:center;gap:40px}
+.marquee__track span::after{content:"✦";color:var(--red)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- Секции ---------- */
+section{padding:100px 0}
+.head{max-width:680px;margin-bottom:46px}
+.head small{display:block;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.12em;font-size:12px;margin-bottom:14px}
+.head h2{font-size:clamp(30px,4.2vw,52px);font-weight:900}
+.head p{margin-top:16px;color:var(--muted);font-size:17px;line-height:1.6}
+
+/* Почему мы */
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.feat{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px;transition:transform .3s,box-shadow .3s}
+.feat:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:0 24px 40px -24px rgba(0,0,0,.3)}
+.feat__ico{width:54px;height:54px;border-radius:16px;background:var(--cream);display:grid;place-items:center;font-size:28px;margin-bottom:18px}
+.feat h3{font-size:18px;margin-bottom:10px;font-weight:700}
+.feat p{color:var(--muted);font-size:14.5px;line-height:1.55}
+
+/* Меню */
+.menu{background:var(--ink);color:#fff;border-radius:40px;margin:0 12px}
+.menu .head p{color:#b5aea4}
+.dishes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.dish{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:3/4;cursor:default;background:#222}
+.dish img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.dish:hover img{transform:scale(1.08)}
+.dish::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82),rgba(0,0,0,0) 55%)}
+.dish__txt{position:absolute;left:18px;right:18px;bottom:16px;z-index:1}
+.dish__txt h3{font-size:19px;font-weight:700}
+.dish__txt p{font-size:13px;color:#d6cfc5;margin-top:6px;line-height:1.4;max-height:0;opacity:0;overflow:hidden;transition:max-height .4s,opacity .4s}
+.dish:hover .dish__txt p{max-height:80px;opacity:1}
+.dish--wide{grid-column:span 2;aspect-ratio:auto}
+.menu__more{margin-top:34px;display:flex;justify-content:center}
+.menu .btn--ghost{border-color:#fff;color:#fff}
+
+/* Магазины */
+.stores{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.store{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:14px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.store:hover{transform:translateY(-4px);box-shadow:0 30px 50px -30px rgba(0,0,0,.35)}
+.store__num{position:absolute;right:20px;top:6px;font:900 96px Unbounded;color:var(--cream);z-index:0;line-height:1}
+.store>*{position:relative;z-index:1}
+.store__city{font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--red)}
+.store h3{font-size:24px;font-weight:700}
+.store__row{display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-size:15px;line-height:1.45}
+.store__row b{color:var(--ink);font-weight:800;font-size:17px;letter-spacing:.02em}
+.store__row svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--red)}
+.store__map{font-weight:700;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.store__map:hover{color:var(--red)}
+.store .btn--wa{margin-top:auto}
+
+/* Как заказать */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{padding:30px;border-radius:28px;background:var(--paper);border:1px solid var(--line);counter-increment:s}
+.step::before{content:"0" counter(s);font:900 44px Unbounded;color:var(--red);display:block;margin-bottom:18px}
+.step h3{font-size:19px;margin-bottom:10px;font-weight:700}
+.step p{color:var(--muted);line-height:1.55;font-size:15px}
+
+/* Инстаграм-плашка */
+.insta{background:var(--red);color:#fff;border-radius:40px;padding:60px 40px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;position:relative;overflow:hidden}
+.insta h2{font-size:clamp(28px,4vw,48px);font-weight:900;max-width:640px}
+.insta p{margin-top:12px;opacity:.85;font-size:17px}
+.insta .btn{background:#fff;color:var(--red)}
+.insta__bg{position:absolute;right:-40px;bottom:-60px;width:260px;opacity:.12;transform:rotate(-14deg);pointer-events:none}
+
+/* Подвал */
+footer{padding:50px 0 110px;color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:30px}
+.foot img{height:56px}
+
+/* Плавающая кнопка WhatsApp */
+.fab{position:fixed;right:18px;bottom:18px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);border:0;cursor:pointer;animation:bob 2.6s ease-in-out infinite}
+.fab svg{width:32px;height:32px;color:#fff}
+.fab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ripple 2s infinite}
+@keyframes ripple{to{transform:scale(1.6);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* Окно выбора магазина */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(15,10,8,.6);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.modal.open{display:flex;animation:fade .25s}
+.modal__box{background:var(--paper);width:100%;max-width:440px;border-radius:28px;padding:26px;animation:up .35s cubic-bezier(.2,.9,.3,1.2)}
+@media(min-width:700px){.modal{align-items:center}}
+.modal__box h3{font-size:22px;margin-bottom:6px}
+.modal__box p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.modal__list{display:grid;gap:10px}
+.modal__list a{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-radius:16px;border:1px solid var(--line);font-weight:700;transition:border-color .2s,background .2s}
+.modal__list a:hover{border-color:var(--wa);background:#f2fcf5}
+.modal__list a span{font-size:13px;color:var(--muted);font-weight:600}
+.modal__close{margin-top:14px;width:100%;border:0;background:var(--cream);padding:13px;border-radius:14px;font:700 14px Manrope;cursor:pointer}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+
+/* Появление при прокрутке */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* Телефон / планшет */
+@media(max-width:980px){
+  .nav__links{display:none}
+  .hero__grid{grid-template-columns:1fr}
+  .hero__art{max-width:420px;margin:10px auto 0}
+  .feats,.dishes{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .nav__in{height:64px}
+  .nav__logo img{height:44px}
+  .nav .btn{display:none}
+  .hero{padding:96px 0 50px}
+  section{padding:70px 0}
+  .stores{grid-template-columns:1fr}
+  .feats{grid-template-columns:1fr}
+  .dishes{gap:10px}
+  .dish{border-radius:18px}
+  .dish__txt h3{font-size:15px}
+  .dish--wide{grid-column:span 2;aspect-ratio:16/10}
+  .menu,.insta{border-radius:28px;margin:0 8px}
+  .insta{padding:40px 24px}
+  .sticker{width:84px;height:84px;font-size:11px}
+  .marquee__track{font-size:17px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- ===== ✏️ ЗАГОЛОВОК — меняй здесь ===== -->
-  <h1>Multicook</h1>
-  <p class="lead">Сайт в разработке — скоро откроемся!</p>
-  <p class="lead tr">Web sitemiz yapım aşamasında — çok yakında!</p>
-  <!-- ======================================= -->
-
-  <p class="sub">
-    А пока заказ можно сделать по WhatsApp или телефону:
-    <span>Şimdilik siparişlerinizi WhatsApp veya telefonla verebilirsiniz:</span>
-  </p>
-
-  <div class="cards">
-
-    <!-- ===== ✏️ ТОЧКА 1 — Анталья Муратпаша / Кепез ===== -->
-    <div class="card">
-      <p class="city">Анталья — Муратпаша / Кепез</p>
-      <p class="phone">+90 505 313 31 97</p>
-      <div class="btns">
-        <a class="btn wa" href="https://wa.me/905053133197" target="_blank">WhatsApp</a>
-        <a class="btn call" href="tel:+905053133197">Позвонить / Ara</a>
+<!-- =====================================================================
+     ШАПКА
+     ===================================================================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a href="#top" class="nav__logo"><img src="logo.png" alt="Multicook"></a>
+    <nav class="nav__links">
+      <a href="#about" data-t="navAbout"></a>
+      <a href="#menu" data-t="navMenu"></a>
+      <a href="#stores" data-t="navStores"></a>
+      <a href="#order" data-t="navOrder"></a>
+    </nav>
+    <div class="nav__right">
+      <!-- Языки: RU / TR / UA -->
+      <div class="lang" id="lang">
+        <button data-l="ru">RU</button>
+        <button data-l="tr">TR</button>
+        <button data-l="uk">UA</button>
       </div>
+      <button class="btn btn--red js-order" data-t="ctaOrder"></button>
     </div>
-
-    <!-- ===== ✏️ ТОЧКА 2 — Анталья Коньяалты ===== -->
-    <div class="card">
-      <p class="city">Анталья — Коньяалты</p>
-      <p class="phone">+90 530 267 01 81</p>
-      <div class="btns">
-        <a class="btn wa" href="https://wa.me/905302670181" target="_blank">WhatsApp</a>
-        <a class="btn call" href="tel:+905302670181">Позвонить / Ara</a>
-      </div>
-    </div>
-
-    <!-- ===== ✏️ ТОЧКА 3 — Аланья ===== -->
-    <div class="card">
-      <p class="city">Аланья</p>
-      <p class="phone">+90 551 467 67 35</p>
-      <div class="btns">
-        <a class="btn wa" href="https://wa.me/905514676735" target="_blank">WhatsApp</a>
-        <a class="btn call" href="tel:+905514676735">Позвонить / Ara</a>
-      </div>
-    </div>
-
   </div>
+</header>
 
-  <!-- ===== ✏️ INSTAGRAM — ссылка на профиль ===== -->
-  <a class="btn insta" href="https://instagram.com/multicook.tr" target="_blank">Instagram @multicook.tr</a>
-  <!-- ================================================================= -->
+<!-- =====================================================================
+     ПЕРВЫЙ ЭКРАН
+     ===================================================================== -->
+<main id="top">
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="tag rv"><i></i><span data-t="heroTag"></span></span>
+      <h1 class="rv d1"><span data-t="heroH1a"></span> <em><span data-t="heroH1b"></span><svg viewBox="0 0 300 16" preserveAspectRatio="none"><path d="M3 12 C 80 2, 200 2, 297 9" stroke="#d42027" stroke-width="5" fill="none" stroke-linecap="round"/></svg></em></h1>
+      <p class="lead rv d2" data-t="heroLead"></p>
+      <div class="hero__cta rv d3">
+        <button class="btn btn--red js-order">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+          <span data-t="ctaOrderWa"></span>
+        </button>
+        <a href="#stores" class="btn btn--ghost" data-t="ctaStores"></a>
+      </div>
+      <div class="hero__stats rv d3">
+        <div><b>4</b><span data-t="stat1"></span></div>
+        <div><b>40+</b><span data-t="stat2"></span></div>
+        <div><b>100%</b><span data-t="stat3"></span></div>
+      </div>
+    </div>
 
-  <p class="foot">© Multicook</p>
+    <!-- ✏️ Фото на первом экране — меняй ссылки на картинки здесь -->
+    <div class="hero__art rv d2">
+      <div class="ring"></div>
+      <div class="steam"><span></span><span></span><span></span></div>
+      <div class="plate"><img src="https://i.ibb.co/dsLZ4rwx/image.jpg" alt=""></div>
+      <div class="bubble bubble--1"><img src="https://i.ibb.co/Cpgf3Xvx/image.jpg" alt=""></div>
+      <div class="bubble bubble--2"><img src="https://i.ibb.co/2YsjtPm1/image.jpg" alt=""></div>
+      <div class="bubble bubble--3"><img src="https://i.ibb.co/5xXm91xZ/image.jpg" alt=""></div>
+      <div class="sticker" data-t="sticker"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Бегущая строка (заполняется из текстов ниже) -->
+<div class="marquee"><div class="marquee__track" id="marq"></div></div>
+
+<!-- =====================================================================
+     ПОЧЕМУ МЫ
+     ===================================================================== -->
+<section id="about">
+  <div class="wrap">
+    <div class="head rv"><small data-t="aboutKicker"></small><h2 data-t="aboutH2"></h2><p data-t="aboutP"></p></div>
+    <div class="feats">
+      <div class="feat rv"><div class="feat__ico">🥟</div><h3 data-t="f1h"></h3><p data-t="f1p"></p></div>
+      <div class="feat rv d1"><div class="feat__ico">🌿</div><h3 data-t="f2h"></h3><p data-t="f2p"></p></div>
+      <div class="feat rv d2"><div class="feat__ico">❄️</div><h3 data-t="f3h"></h3><p data-t="f3p"></p></div>
+      <div class="feat rv d3"><div class="feat__ico">⏱️</div><h3 data-t="f4h"></h3><p data-t="f4p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     МЕНЮ / ЧТО МЫ ГОТОВИМ  (карточки создаются из DISHES в скрипте)
+     ===================================================================== -->
+<section id="menu" class="menu">
+  <div class="wrap">
+    <div class="head rv"><small data-t="menuKicker"></small><h2 data-t="menuH2"></h2><p data-t="menuP"></p></div>
+    <div class="dishes" id="dishes"></div>
+    <div class="menu__more rv"><button class="btn btn--ghost js-order" data-t="menuMore"></button></div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     МАГАЗИНЫ  (карточки создаются из STORES в скрипте)
+     ===================================================================== -->
+<section id="stores">
+  <div class="wrap">
+    <div class="head rv"><small data-t="storesKicker"></small><h2 data-t="storesH2"></h2><p data-t="storesP"></p></div>
+    <div class="stores" id="storeList"></div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     КАК ЗАКАЗАТЬ
+     ===================================================================== -->
+<section id="order" style="padding-top:20px">
+  <div class="wrap">
+    <div class="head rv"><small data-t="orderKicker"></small><h2 data-t="orderH2"></h2></div>
+    <div class="steps">
+      <div class="step rv"><h3 data-t="s1h"></h3><p data-t="s1p"></p></div>
+      <div class="step rv d1"><h3 data-t="s2h"></h3><p data-t="s2p"></p></div>
+      <div class="step rv d2"><h3 data-t="s3h"></h3><p data-t="s3p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Instagram -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="insta rv">
+      <img class="insta__bg" src="logo-white.png" alt="">
+      <div><h2 data-t="instaH2"></h2><p data-t="instaP"></p></div>
+      <!-- ✏️ ссылка на Instagram -->
+      <a class="btn" href="https://instagram.com/multicook.tr" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        @multicook.tr
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <img src="logo.png" alt="Multicook">
+    <div data-t="footTxt"></div>
+    <div>© <span id="yr"></span> Multicook Antalya · Alanya</div>
+  </div>
+</footer>
+
+<!-- Плавающая кнопка WhatsApp -->
+<button class="fab js-order" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+</button>
+
+<!-- Окно "Выберите магазин" -->
+<div class="modal" id="modal">
+  <div class="modal__box">
+    <h3 data-t="modalH"></h3>
+    <p data-t="modalP"></p>
+    <div class="modal__list" id="modalList"></div>
+    <button class="modal__close" id="modalClose" data-t="modalClose"></button>
+  </div>
 </div>
+
+<script>
+/* =====================================================================
+   ✏️ ЗОНА 2: МАГАЗИНЫ — адреса, телефоны, WhatsApp, ссылки на карты
+   wa — номер WhatsApp без "+" и пробелов
+   ===================================================================== */
+const STORES = [
+  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
+    name:{ru:"Муратпаша / Кепез",tr:"Muratpaşa / Kepez",uk:"Муратпаша / Кепез"},
+    address:"Varlık Mah. Piri Reis Cad. No:34A, Muratpaşa",
+    phone:"+90 505 313 31 97", wa:"905053133197",
+    map:"https://share.google/zVskLCj0gSjSHdmTz" },
+  { city:{ru:"Анталья",tr:"Antalya",uk:"Анталія"},
+    name:{ru:"Коньяалты",tr:"Konyaaltı",uk:"Коньяалти"},
+    address:"Liman Mah. 20. Sk., Konyaaltı",
+    phone:"+90 530 267 01 81", wa:"905302670181",
+    map:"https://share.google/8mDsDqb6eQ6Lv1tFz" },
+  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
+    name:{ru:"Центр (Клеопатра)",tr:"Merkez (Kleopatra)",uk:"Центр (Клеопатра)"},
+    address:"Saray Mah. Oral Sk. No:16A, Alanya",
+    phone:"+90 551 467 67 35", wa:"905514676735",
+    map:"https://share.google/OnviwlSqA9bieTTDK" },
+  { city:{ru:"Аланья",tr:"Alanya",uk:"Аланія"},
+    name:{ru:"Махмутлар",tr:"Mahmutlar",uk:"Махмутлар"},
+    address:"Mahmutlar Mah. 207 Sk. Sezgin Sitesi No:8B, Alanya",
+    phone:"+90 551 467 67 35", wa:"905514676735",
+    map:"https://share.google/BV7Z7S4XVJUTurjw4" },
+];
+
+/* =====================================================================
+   ✏️ ЗОНА 3: БЛЮДА В БЛОКЕ "МЕНЮ" — фото + названия
+   wide:true — карточка в 2 колонки
+   ===================================================================== */
+const DISHES = [
+  { img:"https://i.ibb.co/G4Gwy31C/image.jpg", wide:true,
+    ru:["Вареники","Картофель, капуста, творог, вишня — классика, как дома"],
+    tr:["Vareniki","Patates, lahana, lor peyniri, vişne — ev usulü klasik"],
+    uk:["Вареники","Картопля, капуста, сир, вишня — класика, як удома"] },
+  { img:"https://i.ibb.co/2YsjtPm1/image.jpg",
+    ru:["Пельмени","Говядина, индейка, курица — сочный фарш, тонкое тесто"],
+    tr:["Pelmeni","Dana, hindi, tavuk — sulu iç, ince hamur"],
+    uk:["Пельмені","Яловичина, індичка, курка — соковитий фарш"] },
+  { img:"https://i.ibb.co/Cpgf3Xvx/image.jpg",
+    ru:["Сырники","С малиной, вишней, шоколадом или классические"],
+    tr:["Sirniki","Ahududulu, vişneli, çikolatalı veya klasik"],
+    uk:["Сирники","З малиною, вишнею, шоколадом або класичні"] },
+  { img:"https://i.ibb.co/5xXm91xZ/image.jpg",
+    ru:["Блины","Сладкие и сытные начинки — больше 15 вкусов"],
+    tr:["Krep","Tatlı ve tuzlu — 15'ten fazla çeşit"],
+    uk:["Млинці","Солодкі та ситні начинки — понад 15 смаків"] },
+  { img:"https://i.ibb.co/S4fb1LnF/image.jpg",
+    ru:["Чебуреки","Хрустящее тесто, щедрая начинка"],
+    tr:["Çibörek","Çıtır hamur, bol iç"],
+    uk:["Чебуреки","Хрустке тісто, щедра начинка"] },
+  { img:"https://i.ibb.co/0jv2QvrX/image.jpg",
+    ru:["Супы","Борщ и супы-кремы — разогрел и готово"],
+    tr:["Çorbalar","Borş ve kremalı çorbalar — ısıt ve ye"],
+    uk:["Супи","Борщ і крем-супи — розігрів і готово"] },
+  { img:"https://i.ibb.co/B549Cg15/image.jpg", wide:true,
+    ru:["Котлеты и готовые блюда","По-киевски, голубцы, перцы, лазанья, наггетсы"],
+    tr:["Köfte ve hazır yemekler","Kiev usulü, sarma, dolma, lazanya, nugget"],
+    uk:["Котлети та готові страви","По-київськи, голубці, перці, лазанья"] },
+];
+
+/* =====================================================================
+   ✏️ ЗОНА 4: ВСЕ ТЕКСТЫ САЙТА на 3 языках (ru / tr / uk)
+   ===================================================================== */
+const T = {
+ru:{
+  navAbout:"О нас",navMenu:"Меню",navStores:"Магазины",navOrder:"Как заказать",
+  ctaOrder:"Заказать",ctaOrderWa:"Заказать в WhatsApp",ctaStores:"Наши магазины",
+  heroTag:"Анталья · Аланья — 4 магазина",
+  heroH1a:"Домашняя еда",heroH1b:"ручной лепки",
+  heroLead:"Вареники, пельмени, сырники, блины и готовые блюда — лепим вручную каждый день по семейным рецептам. Достал из морозилки — и через 10 минут ужин готов.",
+  stat1:"магазина рядом с вами",stat2:"блюд в ассортименте",stat3:"ручная работа",
+  sticker:"Как у мамы!",
+  marq:["Вареники","Пельмени","Сырники","Блины","Чебуреки","Борщ","Голубцы","Котлеты"],
+  aboutKicker:"Почему Multicook",aboutH2:"Вкус, который помнишь с детства",
+  aboutP:"Мы готовим так, как готовят дома для своих: без спешки, из простых и понятных продуктов. Только быстро замораживаем, чтобы вкус дождался вас.",
+  f1h:"Лепим руками",f1p:"Каждый вареник и пельмень — ручная работа наших поваров, а не конвейер.",
+  f2h:"Честный состав",f2p:"Настоящее мясо, домашний творог, свежие овощи. Без лишней химии и усилителей.",
+  f3h:"Шоковая заморозка",f3p:"Сохраняет вкус, текстуру и пользу продуктов — как будто только что слепили.",
+  f4h:"Ужин за 10 минут",f4p:"Отварить, обжарить или разогреть — и на столе горячая домашняя еда.",
+  menuKicker:"Меню",menuH2:"Что у нас в морозилке",menuP:"Больше 40 позиций: от классических вареников до сытных готовых блюд. Точный ассортимент и цены — в WhatsApp вашего магазина.",
+  menuMore:"Узнать наличие и цены",
+  storesKicker:"Магазины",storesH2:"4 магазина в Анталье и Аланье",storesP:"Выберите ближайший магазин и напишите нам в WhatsApp — подтвердим наличие, сумму и удобное время.",
+  storeWa:"Заказать в WhatsApp",storeMap:"Открыть на карте",
+  orderKicker:"Как заказать",orderH2:"Три шага до вкусного ужина",
+  s1h:"Выберите магазин",s1p:"Тот, что ближе к вам — в Анталье или Аланье.",
+  s2h:"Напишите в WhatsApp",s2p:"Расскажите, что хотите заказать, — подскажем по наличию и вкусам.",
+  s3h:"Получите заказ",s3p:"Договоримся о доставке или самовывозе в удобное для вас время.",
+  instaH2:"Новинки, акции и вкусные фото — в нашем Instagram",instaP:"Подписывайтесь, чтобы первыми узнавать о свежих поступлениях.",
+  footTxt:"Домашние полуфабрикаты ручной работы",
+  modalH:"Выберите магазин",modalP:"Откроется WhatsApp выбранного магазина",modalClose:"Закрыть",
+  waMsg:"Здравствуйте! Хочу сделать заказ в Multicook"
+},
+tr:{
+  navAbout:"Hakkımızda",navMenu:"Menü",navStores:"Mağazalar",navOrder:"Nasıl sipariş verilir",
+  ctaOrder:"Sipariş ver",ctaOrderWa:"WhatsApp'tan sipariş",ctaStores:"Mağazalarımız",
+  heroTag:"Antalya · Alanya — 4 mağaza",
+  heroH1a:"El yapımı",heroH1b:"ev yemekleri",
+  heroLead:"Vareniki, pelmeni, sirniki, krep ve hazır yemekler — her gün aile tarifleriyle elde hazırlıyoruz. Dondurucudan çıkar, 10 dakikada akşam yemeğin hazır.",
+  stat1:"mağaza size yakın",stat2:"çeşit ürün",stat3:"el yapımı",
+  sticker:"Annemin yemeği gibi!",
+  marq:["Vareniki","Pelmeni","Sirniki","Krep","Çibörek","Borş","Sarma","Köfte"],
+  aboutKicker:"Neden Multicook",aboutH2:"Çocukluğunuzdan hatırladığınız lezzet",
+  aboutP:"Evde sevdiklerimiz için pişirdiğimiz gibi hazırlıyoruz: acele etmeden, sade ve tanıdık malzemelerle. Lezzet sizi beklesin diye hızla donduruyoruz.",
+  f1h:"Elde hazırlanır",f1p:"Her bir mantı ustalarımızın el emeği — seri üretim değil.",
+  f2h:"Dürüst içerik",f2p:"Gerçek et, ev yapımı lor, taze sebze. Gereksiz katkı yok.",
+  f3h:"Şok dondurma",f3p:"Lezzeti, dokuyu ve besin değerini korur — sanki yeni yapılmış gibi.",
+  f4h:"10 dakikada yemek",f4p:"Haşla, kızart ya da ısıt — sıcak ev yemeği masanda.",
+  menuKicker:"Menü",menuH2:"Dondurucumuzda neler var",menuP:"40'tan fazla ürün: klasik varenikiden doyurucu hazır yemeklere. Güncel ürün ve fiyatlar mağazanızın WhatsApp hattında.",
+  menuMore:"Stok ve fiyat sor",
+  storesKicker:"Mağazalar",storesH2:"Antalya ve Alanya'da 4 mağaza",storesP:"Size en yakın mağazayı seçin ve WhatsApp'tan yazın — stok, tutar ve uygun saati teyit edelim.",
+  storeWa:"WhatsApp'tan sipariş",storeMap:"Haritada aç",
+  orderKicker:"Nasıl sipariş verilir",orderH2:"Lezzetli akşam yemeğine üç adım",
+  s1h:"Mağazayı seçin",s1p:"Antalya ya da Alanya'da size en yakın olanı.",
+  s2h:"WhatsApp'tan yazın",s2p:"Ne istediğinizi yazın — stok ve çeşitler konusunda yardımcı olalım.",
+  s3h:"Siparişinizi alın",s3p:"Teslimat veya gel-al için uygun saati birlikte belirleyelim.",
+  instaH2:"Yenilikler, kampanyalar ve lezzetli fotoğraflar Instagram'da",instaP:"Yeni ürünlerden ilk siz haberdar olun.",
+  footTxt:"El yapımı ev yemekleri",
+  modalH:"Mağaza seçin",modalP:"Seçilen mağazanın WhatsApp'ı açılacak",modalClose:"Kapat",
+  waMsg:"Merhaba! Multicook'tan sipariş vermek istiyorum"
+},
+uk:{
+  navAbout:"Про нас",navMenu:"Меню",navStores:"Магазини",navOrder:"Як замовити",
+  ctaOrder:"Замовити",ctaOrderWa:"Замовити у WhatsApp",ctaStores:"Наші магазини",
+  heroTag:"Анталія · Аланія — 4 магазини",
+  heroH1a:"Домашня їжа",heroH1b:"ручного ліплення",
+  heroLead:"Вареники, пельмені, сирники, млинці та готові страви — ліпимо вручну щодня за сімейними рецептами. Дістав із морозилки — і за 10 хвилин вечеря готова.",
+  stat1:"магазини поруч із вами",stat2:"страв в асортименті",stat3:"ручна робота",
+  sticker:"Як у мами!",
+  marq:["Вареники","Пельмені","Сирники","Млинці","Чебуреки","Борщ","Голубці","Котлети"],
+  aboutKicker:"Чому Multicook",aboutH2:"Смак, який пам'ятаєш з дитинства",
+  aboutP:"Готуємо так, як удома для своїх: без поспіху, з простих і зрозумілих продуктів. Лише швидко заморожуємо, щоб смак дочекався вас.",
+  f1h:"Ліпимо руками",f1p:"Кожен вареник і пельмень — ручна робота наших кухарів, а не конвеєр.",
+  f2h:"Чесний склад",f2p:"Справжнє м'ясо, домашній сир, свіжі овочі. Без зайвої хімії.",
+  f3h:"Шокова заморозка",f3p:"Зберігає смак, текстуру й користь — наче щойно зліпили.",
+  f4h:"Вечеря за 10 хвилин",f4p:"Відварити, обсмажити чи розігріти — і на столі гаряча домашня їжа.",
+  menuKicker:"Меню",menuH2:"Що в нас у морозилці",menuP:"Понад 40 позицій: від класичних вареників до ситних готових страв. Точний асортимент і ціни — у WhatsApp вашого магазину.",
+  menuMore:"Дізнатися наявність і ціни",
+  storesKicker:"Магазини",storesH2:"4 магазини в Анталії та Аланії",storesP:"Оберіть найближчий магазин і напишіть нам у WhatsApp — підтвердимо наявність, суму та зручний час.",
+  storeWa:"Замовити у WhatsApp",storeMap:"Відкрити на мапі",
+  orderKicker:"Як замовити",orderH2:"Три кроки до смачної вечері",
+  s1h:"Оберіть магазин",s1p:"Той, що ближче до вас — в Анталії чи Аланії.",
+  s2h:"Напишіть у WhatsApp",s2p:"Розкажіть, що бажаєте, — підкажемо щодо наявності та смаків.",
+  s3h:"Отримайте замовлення",s3p:"Домовимося про доставку чи самовивіз у зручний час.",
+  instaH2:"Новинки, акції та смачні фото — в нашому Instagram",instaP:"Підписуйтеся, щоб першими дізнаватися про свіжі надходження.",
+  footTxt:"Домашні напівфабрикати ручної роботи",
+  modalH:"Оберіть магазин",modalP:"Відкриється WhatsApp обраного магазину",modalClose:"Закрити",
+  waMsg:"Вітаю! Хочу зробити замовлення в Multicook"
+}};
+/* ===================================================================== */
+
+
+/* ---------- Дальше логика сайта, править не нужно ---------- */
+const ICON_PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+const ICON_PHONE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>';
+const ICON_WA=document.querySelector('.fab svg').outerHTML;
+let lang='ru';
+
+function waLink(s){
+  const msg=`${T[lang].waMsg} (${s.city[lang]} — ${s.name[lang]})`;
+  return `https://wa.me/${s.wa}?text=${encodeURIComponent(msg)}`;
+}
+
+function render(){
+  const t=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{ if(typeof t[el.dataset.t]==='string') el.textContent=t[el.dataset.t]; });
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+
+  // бегущая строка (2 копии для бесшовности)
+  const items=t.marq.map(x=>`<span>${x}</span>`).join('');
+  document.getElementById('marq').innerHTML=items+items+items+items;
+
+  // блюда
+  document.getElementById('dishes').innerHTML=DISHES.map((d,i)=>`
+    <div class="dish rv ${d.wide?'dish--wide':''} d${i%4}">
+      <img src="${d.img}" alt="${d[lang][0]}" loading="lazy">
+      <div class="dish__txt"><h3>${d[lang][0]}</h3><p>${d[lang][1]}</p></div>
+    </div>`).join('');
+
+  // магазины
+  document.getElementById('storeList').innerHTML=STORES.map((s,i)=>`
+    <div class="store rv d${i%2}">
+      <div class="store__num">0${i+1}</div>
+      <div class="store__city">${s.city[lang]}</div>
+      <h3>${s.name[lang]}</h3>
+      <div class="store__row">${ICON_PIN}<div>${s.address}<br><a class="store__map" href="${s.map}" target="_blank" rel="noopener">${t.storeMap}</a></div></div>
+      <div class="store__row">${ICON_PHONE}<b>${s.phone}</b></div>
+      <a class="btn btn--wa" href="${waLink(s)}" target="_blank" rel="noopener">${ICON_WA}${t.storeWa}</a>
+    </div>`).join('');
+
+  // окно выбора
+  document.getElementById('modalList').innerHTML=STORES.map(s=>`
+    <a href="${waLink(s)}" target="_blank" rel="noopener">${s.city[lang]} — ${s.name[lang]}<span>${s.phone}</span></a>`).join('');
+
+  observe();
+}
+
+// Появление при прокрутке
+let io;
+function observe(){
+  if(!io) io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
+}
+
+// Язык: сохранённый → язык браузера → русский
+function pickLang(){
+  try{const s=localStorage.getItem('mc_lang'); if(T[s]) return s;}catch(e){}
+  const n=(navigator.language||'ru').slice(0,2);
+  return n==='tr'?'tr':n==='uk'?'uk':'ru';
+}
+document.getElementById('lang').addEventListener('click',e=>{
+  const l=e.target.dataset.l; if(!l) return;
+  lang=l; try{localStorage.setItem('mc_lang',l)}catch(e){} render();
+});
+
+// Кнопки "Заказать" → окно выбора магазина
+const modal=document.getElementById('modal');
+document.addEventListener('click',e=>{ if(e.target.closest('.js-order')) modal.classList.add('open'); });
+document.getElementById('modalClose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('open'); });
+
+// Шапка при прокрутке
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20),{passive:true});
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+lang=pickLang(); render();
+</script>
 </body>
 </html>
